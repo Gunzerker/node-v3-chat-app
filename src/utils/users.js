@@ -3,7 +3,7 @@ const users=[]
 //addUser,removeUser,getUser,getUsersInRoom
 
 const addUser=({id,username,room})=>{
-    //Clean data
+try {
     if (!id || !username || !room){
         return {
             error:'Amri stop plz'
@@ -35,6 +35,12 @@ const addUser=({id,username,room})=>{
     const user={id,username,room}
     users.push(user)
     return { user }
+}catch(e){
+    console.log(e)
+    return {
+        error:e
+    }
+}
 }
 
 const removeUser=(id)=>{
