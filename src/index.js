@@ -58,9 +58,8 @@ io.on('connection',(socket)=>{
 
     socket.on('SendMessage',(message,callback)=>{
         const user=getUser(socket.id)
-
         io.to(user.room).emit('message',generateMessage(user.username,message))
-        callback('Delivred')
+        //callback('Delivred')
     })
 
     socket.on('sendLocation',(cord,callback)=>{
