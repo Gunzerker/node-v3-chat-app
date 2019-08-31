@@ -28,7 +28,8 @@ io.on('connection',(socket)=>{
     
     socket.on('join',function (username,room,callback){{
        const {error,user}=addUser({ id:socket.id , username , room})
-    
+       
+
        active=updateRoom(room) 
        active=activeRooms(room)
 
@@ -36,6 +37,8 @@ io.on('connection',(socket)=>{
             console.log(error)
             return callback(error)
             //return (error)
+        }else {
+            console.log(user)
         }
 
         socket.join(user.room)
