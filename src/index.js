@@ -19,6 +19,7 @@ var active=[]
 app.use(express.static(publicDirectoryPath))
 
 io.on('connection',(socket)=>{
+    try {
         console.log('new websocket connection')
         
         console.log(active)
@@ -32,8 +33,9 @@ io.on('connection',(socket)=>{
        active=activeRooms(room)
 
         if (error){
-            //return callback(error)
-            return (error)
+            console.log(error)
+            return callback(error)
+            //return (error)
         }
 
         socket.join(user.room)
@@ -85,7 +87,11 @@ io.on('connection',(socket)=>{
         }
     })
     
-})
+}
+catch(e){
+    console.log(e)
+    return e
+}})
 
 server.listen(port,()=>{
     console.log('Server is up and running at '+port)
