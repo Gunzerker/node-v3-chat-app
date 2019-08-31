@@ -26,7 +26,7 @@ io.on('connection',(socket)=>{
 
        socket.emit('update',active)
     
-    socket.on('join',({username,room},callback)=>{
+    socket.on('join',function ({username,room},callback){{
        const {error,user}=addUser({ id:socket.id , username , room})
     
        active=updateRoom(room) 
@@ -49,7 +49,7 @@ io.on('connection',(socket)=>{
         })
 
         callback()
-    })
+    }})
     
     
 
