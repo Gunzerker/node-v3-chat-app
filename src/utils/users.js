@@ -4,6 +4,11 @@ const users=[]
 
 const addUser=({id,username,room})=>{
     //Clean data
+    if (!id || !username || !room){
+        return {
+            error:'Amri stop plz'
+        }
+    }
     username = username.trim().toLowerCase()
     room=room.trim().toLowerCase()
 
