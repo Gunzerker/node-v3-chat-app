@@ -1,4 +1,4 @@
-const socket=io ()
+const socket=io()
 
 //elements
 const $messageForm=document.querySelector('#message-form')
@@ -46,6 +46,7 @@ socket.on('update',(arr)=>{
 socket.on('message',(message)=>{
     console.log(message)
     console.log(username)
+    console.log(socket)
     const html=Mustache.render(messageTemplate,{
         username:message.username,
         message:message.text,

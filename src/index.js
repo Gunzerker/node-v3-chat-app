@@ -13,10 +13,10 @@ const io=socketio(server)
 const port =process.env.PORT||3000
 const publicDirectoryPath=path.join(__dirname,'../public')
 
+//amri plz 
 var active=[]
 
 app.use(express.static(publicDirectoryPath))
-
 
 io.on('connection',(socket)=>{
         console.log('new websocket connection')
@@ -27,7 +27,7 @@ io.on('connection',(socket)=>{
     
     socket.on('join',({username,room},callback)=>{
        const {error,user}=addUser({ id:socket.id , username , room})
-        
+    
        active=updateRoom(room) 
        active=activeRooms(room)
 
@@ -36,9 +36,7 @@ io.on('connection',(socket)=>{
         }
 
         socket.join(user.room)
-
-       
-        
+ 
         socket.emit('message',generateMessage('System','Welcome!'))
         
         socket.broadcast.to(user.room).emit('message',generateMessage(user.username+' has joined!'))
