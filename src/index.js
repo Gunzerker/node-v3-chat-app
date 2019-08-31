@@ -32,7 +32,8 @@ io.on('connection',(socket)=>{
        active=activeRooms(room)
 
         if (error){
-            return callback(error)
+            //return callback(error)
+            return (error)
         }
 
         socket.join(user.room)
