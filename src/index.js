@@ -34,8 +34,8 @@ io.on('connection',(socket)=>{
 
         if (error){
             console.log(error)
-            return callback(error)
-            //return (error)
+            //return callback(error)
+            return (error)
         }
 
         socket.join(user.room)

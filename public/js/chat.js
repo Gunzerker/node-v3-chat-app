@@ -39,6 +39,8 @@ const autoscroll =()=>{
 
 }
 
+try{
+
 socket.on('update',(arr)=>{
     console.log(arr)
 })
@@ -112,5 +114,7 @@ socket.emit('join',{username,room},(error)=>{
         location.href='/'
     }
 })
-
-
+}
+catch(e){
+    console.log(e)
+}
