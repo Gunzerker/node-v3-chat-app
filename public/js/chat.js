@@ -88,8 +88,7 @@ $messageForm.addEventListener('submit',(e)=>{
         $messageFormButton.removeAttribute('disabled')
         $messageFormInput.value=''
         $messageFormInput.focus()
- 
-        console.log('the message was delivred',message)
+        console.log('the message was ',message)
     })
 })
 

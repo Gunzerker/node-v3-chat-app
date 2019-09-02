@@ -4,7 +4,7 @@ const http=require('http')
 const socketio=require('socket.io')
 const {generateMessage , generateLocation}=require('./utils/messages')
 const {addUser , removeUser , getUser , getUsersInRoom}=require('./utils/users')
-const {activeRooms , deleteRoom,updateRoom,generateActiveRooms}=require('./utils/activerooms')
+const {activeRooms , deleteRoom,updateRoom,generateActiveRooms,disconnectFromRoom}=require('./utils/activerooms')
 
 const app=express()
 const server=http.createServer(app)
@@ -29,7 +29,6 @@ io.on('connection',(socket)=>{
     socket.on('join',function (username,room,callback){{
        const {error,user}=addUser({ id:socket.id , username , room})
        
-
        active=updateRoom(room) 
        active=activeRooms(room)
 
@@ -59,16 +58,24 @@ io.on('connection',(socket)=>{
     socket.on('SendMessage',(message,callback)=>{
         const user=getUser(socket.id)
         io.to(user.room).emit('message',generateMessage(user.username,message))
-        //callback('Delivred')
+        callback('delevried')
+    })
+
+    socket.on('SendMessageAndroid',message,()=>{
+        const user=getUser(socket.id)
+        io.to(user.room).emit('message',generateMessage(user.username,message))
     })
 
     socket.on('sendLocation',(cord,callback)=>{
         const user=getUser(socket.id)
-
         io.to(user.room).emit('LocationMessage',generateLocation(user.username,'http://google.com/maps?q='+cord.latitude+','+cord.longtitude))
         callback('Location shared!')
     })
 
+    socket.on('sendLocationAndroid',(cord)=>{
+        const user=getUser(socket.id)
+        io.to(user.room).emit('LocationMessage',generateLocation(user.username,'http://google.com/maps?q='+cord.latitude+','+cord.longtitude))
+    })
 
     socket.on('disconnect',()=>{
         const user=removeUser(socket.id)
