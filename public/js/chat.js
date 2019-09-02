@@ -107,12 +107,19 @@ $messageFromLocation.setAttribute('disabled','disabled')
     })
 })
 
-socket.emit('join',username,room,(error)=>{
+socket.emit('join',username,room)
+
+socket.on('problem',(prob)=>{
+        alert(prob)
+        location.href='/'
+})
+/*socket.emit('join',username,room,(error)=>{
     if(error){
         alert(error)
         location.href='/'
     }
 })
+*/
 }
 catch(e){
     console.log(e)

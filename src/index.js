@@ -26,20 +26,23 @@ io.on('connection',(socket)=>{
 
        socket.emit('update',active)
     
-    socket.on('join',function (username,room,callback){{
+    socket.on('join',(username,room)=>{
        const {error,user}=addUser({ id:socket.id , username , room})
        
-       active=updateRoom(room) 
-       active=activeRooms(room)
+       
 
         if (error){
             console.log(error)
-            return callback(error)
-            //return (error)
+            //return callback(error)
+            socket.emit('problem',error)
+            return 
         }else {
             console.log(user)
         }
 
+        active=updateRoom(room) 
+        active=activeRooms(room)
+        
         socket.join(user.room)
  
         socket.emit('message',generateMessage('System','Welcome!'))
@@ -50,18 +53,16 @@ io.on('connection',(socket)=>{
             users:getUsersInRoom(user.room)
         })
         //Causes some problems
-        //callback()
-    }})
+       // callback()
+    })
     
-    
-
     socket.on('SendMessage',(message,callback)=>{
         const user=getUser(socket.id)
         io.to(user.room).emit('message',generateMessage(user.username,message))
         callback('delevried')
     })
 
-    socket.on('SendMessageAndroid',message,()=>{
+    socket.on('SendMessageAndroid',(message)=>{
         const user=getUser(socket.id)
         io.to(user.room).emit('message',generateMessage(user.username,message))
     })
