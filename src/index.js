@@ -1,36 +1,60 @@
 const express=require('express')
+const bodyParser = require('body-parser')
 const path=require('path')
 const http=require('http')
 const socketio=require('socket.io')
 const {generateMessage , generateLocation}=require('./utils/messages')
 const {addUser , removeUser , getUser , getUsersInRoom}=require('./utils/users')
-const {activeRooms , deleteRoom,updateRoom,generateActiveRooms,disconnectFromRoom}=require('./utils/activerooms')
-
+const {activeRooms , deleteRoom,updateRoom}=require('./utils/activerooms');
 const app=express()
 const server=http.createServer(app)
 const io=socketio(server)
-
 const port =process.env.PORT||3000
 const publicDirectoryPath=path.join(__dirname,'../public')
+
+var firebase = require("firebase/app")
+
+require("firebase/auth")
+require("firebase/firestore")
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCvPZB64PAOyL9-FR3A6xva5MWBuq6trTU",
+    authDomain: "chat-app-e82a8.firebaseapp.com",
+    databaseURL: "https://chat-app-e82a8.firebaseio.com",
+    projectId: "chat-app-e82a8",
+    storageBucket: "chat-app-e82a8.appspot.com",
+    messagingSenderId: "962059879127",
+    appId: "1:962059879127:web:7531ddecc5b81cc36a2692",
+    measurementId: "G-F92RP78F3K"
+  }
+
+firebase.initializeApp(firebaseConfig);
+
+const {router,logedin,current}=require('./routers/router')
 
 //amri plz 
 var active=[]
 
 app.use(express.static(publicDirectoryPath))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(router)
 
 io.on('connection',(socket)=>{
     try {
         console.log('new websocket connection')
-        
+        console.log(current)
+        //console.log(logedin)
+        //console.log(logedin)
         console.log(active)
 
        socket.emit('update',active)
-    
-    socket.on('join',(username,room)=>{
-       const {error,user}=addUser({ id:socket.id , username , room})
-       
-       
 
+    socket.on('join',(room)=>{
+        const username=current[0].email
+        //console.log(username)
+       const {error,user}=addUser({ id:socket.id ,username, room})
+       //console.log(user)
+    
         if (error){
             console.log(error)
             //return callback(error)
@@ -42,7 +66,7 @@ io.on('connection',(socket)=>{
 
         active=updateRoom(room) 
         active=activeRooms(room)
-        
+
         socket.join(user.room)
  
         socket.emit('message',generateMessage('System','Welcome!'))
@@ -102,10 +126,9 @@ catch(e){
     console.log(e)
     return e
 }})
-
+ 
 server.listen(port,()=>{
     console.log('Server is up and running at '+port)
 })
-app.get('',(req,res)=>{
-    res.render('index')
-})
+
+

@@ -4,6 +4,7 @@ const users=[]
 
 const addUser=({id,username,room})=>{
 try {
+    //console.log(username)
     if (!id || !username || !room){
         return {
             error:'Amri stop plz'
