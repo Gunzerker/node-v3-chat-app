@@ -6,17 +6,23 @@
     </head>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script>function open(){
+        window.open('register.html')
+    }
+    </script>
     <script src="/js/indx.js"></script>
     <body>
         <div class="centered-form" id="test">
             <div class="centered-form__box" id="">
                 <h1>Join</h1>
                 <form id="info-box" action="/chat.html" name='f'>
-                    <label>Display name</label>
-                    <input type="text" name="username" placeholder="Display name" required>
                     <label>Room</label>
-                    <input type="text" name="room" placeholder="Room" required>
+                    <input type="text" name="room" placeholder="Room" >
                     <button>Join</button>
+                    <button onClick="open()">Register</button>
+                    <a href='register.html'>Register</a>
+                    <a href='login.html'>Login</a>
+                    <button>Login</button>
                     <h2>Active rooms</h2>
                     <ul>
                         <li id='ss'>
@@ -27,6 +33,29 @@
             
         </div>
         </div>
-       
+
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAobvyB_YyUM2L3-VXmmSsqC__ND4h8KVE",
+    authDomain: "chat-app-78105.firebaseapp.com",
+    databaseURL: "https://chat-app-78105.firebaseio.com",
+    projectId: "chat-app-78105",
+    storageBucket: "chat-app-78105.appspot.com",
+    messagingSenderId: "823163563539",
+    appId: "1:823163563539:web:9dff27c6dadcb6588f99e6",
+    measurementId: "G-NZG0XT8M2S"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
     </body>
 </html>

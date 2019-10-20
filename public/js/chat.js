@@ -107,7 +107,7 @@ $messageFromLocation.setAttribute('disabled','disabled')
     })
 })
 
-socket.emit('join',username,room)
+socket.emit('join',room)
 
 socket.on('problem',(prob)=>{
         alert(prob)

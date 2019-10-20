@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Chat app</title>
+        <link rel="icon" href="/img/favicon.png">
+        <link rel="stylesheet" href="/css/styles.min.css">
+        <script src="https://cdn.firebase.com/libs/firebaseui/4.2.0/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.2.0/firebaseui.css" />
+<script src="node_modules/firebaseui/dist/firebaseui.js"></script>
+<script>var firebase = require('firebase');
+    var firebaseui = require('firebaseui');</script>
+<link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
+
+    </head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    
+    </script>
+    <body>
+        <div class="centered-form" id="test">
+            <div class="centered-form__box" id="">
+                <h1>Register</h1>
+                <form id="info-box" action="/register"  method="POST">
+                    <label>Display name</label>
+                    <input type="text" name="username" placeholder="Display name" required  id='username'>
+                    <label>Password</label>
+                    <input type="password" name="psw" placeholder="Room" required id='password'>
+                    <label>Full name</label>
+                    <input type="text" name="fullname" placeholder="fullname" id='fullname' >
+                    <label>Email</label>
+                    <input type="email" name="mail" placeholder="Email" id='email'>
+                    <button type='submit'>Register</button>
+                </form>
+        </div>
+        </div>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="/__/firebase/7.2.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="/__/firebase/7.2.1/firebase-analytics.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+    </body>
+</html>
