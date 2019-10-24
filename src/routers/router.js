@@ -55,9 +55,9 @@ router.post('/login',async(req,res)=>{
       });
       console.log (valid)
       if(valid==1){
-        res.redirect('http://localhost:3000/?usermail='+current[0].email)
+        res.redirect('/?usermail='+current[0].email)
       }else{
-        res.redirect('http://localhost:3000/login.html/?auth=0')
+        res.redirect('/login.html/?auth=no')
       }
       
 
@@ -79,7 +79,7 @@ router.post('/createloby',async(req,res)=>{
   }
   rooms.push(room)
   console.log(rooms)
-  res.redirect('http://localhost:3000/?usermail='+current[0].email)
+  res.redirect('/?usermail='+current[0].email)
 })
 
 router.get('',(req,res)=>{
