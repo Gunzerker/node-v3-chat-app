@@ -11,7 +11,6 @@ const server=http.createServer(app)
 const io=socketio(server)
 const port =process.env.PORT||3000
 const publicDirectoryPath=path.join(__dirname,'../public')
-
 var firebase = require("firebase/app")
 
 require("firebase/auth")
@@ -30,31 +29,75 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const {router,logedin,current}=require('./routers/router')
+const {router,current,rooms}=require('./routers/router')
 
 //amri plz 
 var active=[]
 
 app.use(express.static(publicDirectoryPath))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.set('view engine','ejs')
 app.use(router)
 
 io.on('connection',(socket)=>{
     try {
         console.log('new websocket connection')
-        console.log(current)
-        //console.log(logedin)
-        //console.log(logedin)
-        console.log(active)
+        //console.log(rooms)
+        /*console.log(current)
+        console.log(logedin)
+        //console.log(logedin)*/
+        //console.log(active)
 
-       socket.emit('update',active)
-
-    socket.on('join',(room)=>{
-        const username=current[0].email
-        //console.log(username)
-       const {error,user}=addUser({ id:socket.id ,username, room})
-       //console.log(user)
+    socket.emit('update',active)
     
+    socket.on('requestrooms',()=>{
+    var res=[]
+    var inroom=-1
+    for(i=0;i<rooms.length;i++){
+        if(rooms[i].psw)
+            psw=0
+        else
+            psw=1
+    for (j=0;j<active.length;j++){
+        if(rooms[i].roomname==active[j].room){
+            inroom=active[j].usersInRoom
+            break
+        }
+        if(inroom==-1)
+            inroom=0
+    }
+        var object={
+            uid:rooms[i].uid,
+            roomname:rooms[i].roomname,
+            psw,
+            inroom
+        }
+        res.push(object)
+    }
+    socket.emit('response',res)
+    })
+
+    socket.on('join',(room,psw)=>{
+        
+        if(!current[0]){
+            console.log('user not loged in')
+            socket.emit('NoLogin','Please login before you join a room !')
+            return 
+        }
+        const username=current[0].email
+        exists=0
+        //console.log(username)
+        for(i=0;i<rooms.length;i++){
+            if(rooms[i].roomname==room && rooms[i].password==psw)
+                exists=1
+        }
+        if(exists==0){
+            socket.emit('problem','please verify room name or the room password!')
+            return
+        }
+       const {error,user}=addUser({ id:socket.id ,username, room})
+       
+       //console.log(user)
         if (error){
             console.log(error)
             //return callback(error)
@@ -63,10 +106,9 @@ io.on('connection',(socket)=>{
         }else {
             console.log(user)
         }
-
         active=updateRoom(room) 
         active=activeRooms(room)
-
+        
         socket.join(user.room)
  
         socket.emit('message',generateMessage('System','Welcome!'))
@@ -120,7 +162,7 @@ io.on('connection',(socket)=>{
             })
         }
     })
-    
+
 }
 catch(e){
     console.log(e)

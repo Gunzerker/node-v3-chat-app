@@ -10,6 +10,8 @@ router=new express.Router()
 
 var logedin=[]
 var current=[]
+var rooms=[]
+
 
 router.post('/register',async(req,res)=>{
 
@@ -23,14 +25,14 @@ router.post('/register',async(req,res)=>{
 })
 router.post('/login',async(req,res)=>{
 
-    firebase.auth().signInWithEmailAndPassword(req.body.mail, req.body.psw).catch(function(error) {
+    await firebase.auth().signInWithEmailAndPassword(req.body.mail, req.body.psw).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
       });
-
-    firebase.auth().onAuthStateChanged(function(user) {
+      
+    await firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
           var displayName = user.displayName;
@@ -42,13 +44,22 @@ router.post('/login',async(req,res)=>{
           var providerData = user.providerData;
           logedin.push(user)
           current[0]=user
+          console.log('yes')
+          valid=1
           // ...
         } else {
+          valid=0
           // User is signed out.
           // ...
         }
       });
-      res.redirect('http://localhost:3000/')
+      console.log (valid)
+      if(valid==1){
+        res.redirect('http://localhost:3000/?usermail='+current[0].email)
+      }else{
+        res.redirect('http://localhost:3000/login.html/?auth=0')
+      }
+      
 
 })
 router.get('/logout',async(req,res)=>{
@@ -58,8 +69,21 @@ router.get('/logout',async(req,res)=>{
     // An error happened.
   })
 })
+
+router.post('/createloby',async(req,res)=>{
+  console.log(req.body)
+  var room={
+    userid:current[0].uid,
+    roomname:req.body.roomname,
+    password:req.body.psw
+  }
+  rooms.push(room)
+  console.log(rooms)
+  res.redirect('http://localhost:3000/?usermail='+current[0].email)
+})
+
 router.get('',(req,res)=>{
     res.render('index')
 })
 
-module.exports={router,logedin,current}
+module.exports={router,logedin,current,rooms}
