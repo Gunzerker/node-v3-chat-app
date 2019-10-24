@@ -35,7 +35,7 @@ const {router,current,rooms}=require('./routers/router')
 var active=[]
 
 app.use(express.static(publicDirectoryPath))
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended:true }))
 app.set('view engine','ejs')
 app.use(router)
 
