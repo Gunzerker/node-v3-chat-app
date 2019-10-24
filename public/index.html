@@ -3,26 +3,24 @@
         <title>Chat app</title>
         <link rel="icon" href="/img/favicon.png">
         <link rel="stylesheet" href="/css/styles.min.css">
+        
     </head>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-    <script>function open(){
-        window.open('register.html')
-    }
-    </script>
     <script src="/js/indx.js"></script>
+        
     <body>
         <div class="centered-form" id="test">
             <div class="centered-form__box" id="">
                 <h1>Join</h1>
+                <h0 id='wlc' ></h0>
                 <form id="info-box" action="/chat.html" name='f'>
                     <label>Room</label>
                     <input type="text" name="room" placeholder="Room" >
+                    <label>Password</label>
+                    <input type="password" name="psw" placeholder="Password">
                     <button>Join</button>
-                    <button onClick="open()">Register</button>
-                    <a href='register.html'>Register</a>
-                    <a href='login.html'>Login</a>
-                    <button>Login</button>
+    
                     <h2>Active rooms</h2>
                     <ul>
                         <li id='ss'>
@@ -30,7 +28,17 @@
                     </ul>
             
                 </form>
-            
+                <form action='login.html'>
+                    <button>Login</button>
+                </form>
+
+                <form action='register.html'>
+                    <button>Register</button>
+                </form>
+                
+                <form action='createloby.html'>
+                    <button>Create room</button>
+                </form>
         </div>
         </div>
 
@@ -57,5 +65,20 @@
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 </script>
+    <script>
+    
+            function getQueryVariable(variable)
+        {
+               var query = window.location.search.substring(1);
+               var vars = query.split("&");
+               for (var i=0;i<vars.length;i++) {
+                       var pair = vars[i].split("=");
+                       if(pair[0] == variable){return pair[1];}
+               }
+               return(false);
+        }
+        if(getQueryVariable('usermail')!=false)
+               document.getElementById('wlc').textContent='Welcome'+ ' ' +getQueryVariable('usermail')+'!'
+            </script>
     </body>
 </html>

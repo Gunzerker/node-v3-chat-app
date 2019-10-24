@@ -13,7 +13,9 @@ const locationTemplate= document.querySelector('#location-template').innerHTML
 const sidebarTemplate=  document.querySelector('#sidebartemplate').innerHTML
 
 //options
-const {username,room}=Qs.parse(location.search,{ ignoreQueryPrefix:true})
+const {username,room,psw}=Qs.parse(location.search,{ ignoreQueryPrefix:true})
+
+
 
 const autoscroll =()=>{
     // New message element
@@ -42,13 +44,17 @@ const autoscroll =()=>{
 try{
 
 socket.on('update',(arr)=>{
-    console.log(arr)
+    
+})
+
+socket.on('NoLogin',(message)=>{
+    if(window.confirm(message)){
+        window.location.replace("login.html");
+    }
 })
 
 socket.on('message',(message)=>{
-    console.log(message)
-    console.log(username)
-    console.log(socket)
+   
     const html=Mustache.render(messageTemplate,{
         username:message.username,
         message:message.text,
@@ -59,7 +65,7 @@ socket.on('message',(message)=>{
 })
 
 socket.on('LocationMessage',(message)=>{
-    console.log(message)
+    
     const html=Mustache.render(locationTemplate,{
         username:message.username,
         url:message.url,
@@ -88,7 +94,7 @@ $messageForm.addEventListener('submit',(e)=>{
         $messageFormButton.removeAttribute('disabled')
         $messageFormInput.value=''
         $messageFormInput.focus()
-        console.log('the message was ',message)
+       
     })
 })
 
@@ -101,18 +107,20 @@ $messageFromLocation.setAttribute('disabled','disabled')
     navigator.geolocation.getCurrentPosition((position)=>{
         socket.emit('sendLocation',{latitude:position.coords.latitude,longtitude:position.coords.longitude},(acknoledge)=>{
             $messageFromLocation.removeAttribute('disabled')
-            console.log(acknoledge)
+            
         })
         
     })
 })
 
-socket.emit('join',room)
+
+socket.emit('join',room,psw)
 
 socket.on('problem',(prob)=>{
         alert(prob)
         location.href='/'
 })
+
 /*socket.emit('join',username,room,(error)=>{
     if(error){
         alert(error)
