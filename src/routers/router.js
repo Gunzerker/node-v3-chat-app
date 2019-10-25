@@ -5,7 +5,6 @@ const publicDirectoryPath=path.join(__dirname,'../public')
 const User=require('../models/users')
 var firebase = require("firebase/app")
 
-
 router=new express.Router()
 
 var logedin=[]
@@ -85,5 +84,6 @@ router.post('/createloby',async(req,res)=>{
 router.get('',(req,res)=>{
     res.render('index')
 })
+
 
 module.exports={router,logedin,current,rooms}
