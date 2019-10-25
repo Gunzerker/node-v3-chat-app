@@ -12,7 +12,6 @@ const io=socketio(server)
 const port =process.env.PORT||3000
 const publicDirectoryPath=path.join(__dirname,'../public')
 var firebase = require("firebase/app")
-var admin = require("firebase-admin");
 require("firebase/auth")
 require("firebase/firestore")
 
