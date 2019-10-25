@@ -12,7 +12,14 @@ const io=socketio(server)
 const port =process.env.PORT||3000
 const publicDirectoryPath=path.join(__dirname,'../public')
 var firebase = require("firebase/app")
-const functions=require("firebase-functions")
+var admin = require("firebase-admin");
+
+var serviceAccount = require("path/to/serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://chat-app-e82a8.firebaseio.com"
+});
 require("firebase/auth")
 require("firebase/firestore")
 
@@ -173,4 +180,3 @@ server.listen(port,()=>{
     console.log('Server is up and running at '+port)
 })
 
-exports.server = functions.https.onRequest(server);
