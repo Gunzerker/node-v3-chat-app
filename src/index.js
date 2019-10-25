@@ -54,8 +54,6 @@ io.on('connection',(socket)=>{
     var inroom=0
     var psw=0
     for(i=0;i<rooms.length;i++){
-        console.log(rooms[i].psw)
-        console.log(rooms[i])
         if(rooms[i].password=='')
             psw=0
         else
