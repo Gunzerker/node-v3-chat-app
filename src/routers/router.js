@@ -101,7 +101,7 @@ router.post('/login',async(req,res)=>{
       if(valid==1){
         res.redirect('/?usermail='+current[0].email)
       }else{
-        res.redirect('/login.html/?auth=no')
+        res.redirect('/login.html?auth=no1')
       }
       
 
@@ -116,6 +116,10 @@ router.get('/logout',async(req,res)=>{
 
 router.post('/createloby',async(req,res)=>{
   console.log(req.body)
+  
+  if (!current[0])
+  res.redirect('/login.html?auth=no2')
+  else {
   var room={
     userid:current[0].uid,
     roomname:req.body.roomname,
@@ -124,6 +128,7 @@ router.post('/createloby',async(req,res)=>{
   rooms.push(room)
   console.log(rooms)
   res.redirect('/?usermail='+current[0].email)
+}
 })
 
 router.get('',(req,res)=>{
