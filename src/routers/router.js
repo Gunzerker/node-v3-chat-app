@@ -18,7 +18,7 @@ router.post('/register',async(req,res)=>{
   // Handle Errors here.
   var errorCode = error.code;
   var errorMessage = error.message;
-  console.log(error.code,+" ",+errorMessage)
+  //console.log(error.code,+" ",+errorMessage)
 
   if (!errorCode){
     already=0
@@ -52,7 +52,7 @@ await firebase.auth().onAuthStateChanged(function(user) {
     var providerData = user.providerData;
     logedin.push(user)
     current[0]=user
-    console.log('yes')
+    //console.log('yes')
     valid=1
     // ...
   } else {
@@ -88,7 +88,7 @@ router.post('/login',async(req,res)=>{
           var providerData = user.providerData;
           logedin.push(user)
           current[0]=user
-          console.log('yes')
+          //console.log('yes')
           valid=1
           // ...
         } else {
@@ -97,7 +97,7 @@ router.post('/login',async(req,res)=>{
           // ...
         }
       });
-      console.log (valid)
+      //console.log (valid)
       if(valid==1){
         res.redirect('/?usermail='+current[0].email)
       }else{

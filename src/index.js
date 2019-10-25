@@ -41,19 +41,22 @@ app.use(router)
 io.on('connection',(socket)=>{
     try {
         console.log('new websocket connection')
-        //console.log(rooms)
+        console.log('rooms '+rooms)
         /*console.log(current)
         console.log(logedin)
         //console.log(logedin)*/
-        //console.log(active)
+        console.log('active '+active)
 
     socket.emit('update',active)
     
     socket.on('requestrooms',()=>{
     var res=[]
-    var inroom=-1
+    var inroom=0
+    var psw=0
     for(i=0;i<rooms.length;i++){
-        if(rooms[i].psw)
+        console.log(rooms[i].psw)
+        console.log(rooms[i])
+        if(rooms[i].password=='')
             psw=0
         else
             psw=1
@@ -72,6 +75,8 @@ io.on('connection',(socket)=>{
             inroom
         }
         res.push(object)
+        object={}
+        inroom=0
     }
     socket.emit('response',res)
     })
